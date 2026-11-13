@@ -1,0 +1,13 @@
+# Line-Item & Header Rounding Audit for Al Noor Fuel (BR-CO-15)
+# Rule BR-CO-15: Invoice total amount with VAT (IBT-112) must equal Invoice total amount without VAT (IBT-109) + Invoice total VAT amount (IBT-110)
+# Reference: https://github.com/sanjay-complyance/pse-support-lab/blob/main/docs/template-field-guide.md
+
+Invoice      | IBT-109 (Net 2-dec) | IBT-110 (VAT 2-dec) | Expected IBT-112 (IBT-109 + IBT-110) | Sheet IBT-112 (Unrounded sum) | Discrepancy
+-------------+---------------------+---------------------+--------------------------------------+-------------------------------+------------
+INV-2026-088 |          2,875.13   |            143.76   |                           3,018.89   |                    3,018.88   |   -0.01 AED
+INV-2026-089 |          5,750.13   |            287.51   |                           6,037.64   |                    6,037.63   |   -0.01 AED
+INV-2026-092 |          7,187.73   |            359.39   |                           7,547.12   |                    7,547.11   |   -0.01 AED
+INV-2026-093 |          3,593.86   |            179.70   |                           3,773.56   |                    3,773.55   |   -0.01 AED
+
+Fix in Excel:
+Wrap line net and VAT formulas in =ROUND(..., 2) and set IBT-112 = IBT-109 + IBT-110 so the 0.01 AED half-fil discrepancy is eliminated.

@@ -1,0 +1,9 @@
+-- Query & Portal Error Output — Incident 5 (Ghaf Tree Cafe LLC)
+-- Source: docs/template-field-guide.md (https://github.com/sanjay-complyance/pse-support-lab/blob/main/docs/template-field-guide.md)
+
+$ docker compose exec postgres psql -U invoicely -d invoicely -c "SELECT id, filename, status, row_count, invoice_count, error FROM imports WHERE filename LIKE '%ghaf%';"
+
+                  id                  |         filename         |  status  | row_count | invoice_count |                                      error                                       
+--------------------------------------+--------------------------+----------+-----------+---------------+----------------------------------------------------------------------------------
+ f91b2c3d-64e7-4f8a-9b01-019283746505 | ghaf-cafe-nov-2026.xlsx  | Rejected |        15 |            15 | [Invoice issue date*] must be a date in YYYY-MM-DD format (got '13/11/2026')
+(1 row)

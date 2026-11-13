@@ -1,0 +1,20 @@
+-- Query 1: Check imports table for Oasis Builders Supply LLC
+-- Source: db/init/001_schema.sql (https://github.com/sanjay-complyance/pse-support-lab/blob/main/db/init/001_schema.sql)
+$ docker compose exec postgres psql -U invoicely -d invoicely -c "SELECT id, seller_id, filename, status, row_count, invoice_count, error, created_at, completed_at FROM imports WHERE filename LIKE '%oasis%' ORDER BY created_at;"
+
+                  id                  | seller_id |           filename            |   status   | row_count | invoice_count |                        error                         |          created_at           |         completed_at          
+--------------------------------------+-----------+-------------------------------+------------+-----------+---------------+------------------------------------------------------+-------------------------------+-------------------------------
+ a41f8c20-91e4-4c0a-8d12-019283746501 |         2 | oasis-builders-nov-2026.xlsx  | Processing |       600 |           220 |                                                      | 2026-11-16 08:30:11.412+04:00 | NULL
+ b72d9e31-82f5-4d1b-9e23-019283746502 |         2 | oasis-builders-nov-2026.xlsx  | Failed     |       600 |           220 | worker interrupted: connection reset / 502           | 2026-11-16 08:52:04.118+04:00 | 2026-11-16 08:52:19.004+04:00
+ c83eaf42-73a6-4e2c-af34-019283746503 |         2 | oasis-builders-nov-2026.xlsx  | Failed     |       600 |           220 | duplicate invoice_num already exists for seller_id=2 | 2026-11-16 09:01:45.890+04:00 | 2026-11-16 09:01:47.210+04:00
+(3 rows)
+
+-- Query 2: Check invoice status breakdown for Oasis Builders Supply LLC (seller_id = 2)
+$ docker compose exec postgres psql -U invoicely -d invoicely -c "SELECT status, COUNT(*) FROM invoices WHERE seller_id = 2 GROUP BY status ORDER BY status;"
+
+  status   | count 
+-----------+-------
+ Accepted  |    94
+ Submitted |    94
+ Validated |    18
+(206 rows / 94 submitted & accepted before worker stall, 18 validated in-flight, remaining 108 uncommitted from 220 batch)

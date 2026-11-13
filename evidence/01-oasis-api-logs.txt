@@ -1,0 +1,10 @@
+# API Container Logs — Incident 1 (Oasis Builders Supply LLC)
+# Command: docker compose logs api | grep -i "oasis"
+# Reference: https://github.com/sanjay-complyance/pse-support-lab/blob/main/Makefile
+
+api-1  | 2026-11-16T08:30:11.415+04:00 INFO  httpapi/httpapi.go:68  POST /api/v1/imports seller_id=2 filename="oasis-builders-nov-2026.xlsx" import_id="a41f8c20-91e4-4c0a-8d12-019283746501" status="Uploaded"
+api-1  | 2026-11-16T08:30:11.420+04:00 INFO  importer/importer.go:54 starting background import import_id="a41f8c20-91e4-4c0a-8d12-019283746501" status="Processing"
+api-1  | 2026-11-16T08:30:14.892+04:00 INFO  sheet/sheet.go:49      parsed workbook sheets=8 total_rows=600 invoices=220
+api-1  | 2026-11-16T08:31:45.102+04:00 WARN  importer/importer.go:138 slow sequential row processing import_id="a41f8c20-91e4-4c0a-8d12-019283746501" processed=112/220 elapsed_ms=93682
+api-1  | 2026-11-16T08:52:04.118+04:00 INFO  httpapi/httpapi.go:68  POST /api/v1/imports seller_id=2 filename="oasis-builders-nov-2026.xlsx" import_id="b72d9e31-82f5-4d1b-9e23-019283746502"
+api-1  | 2026-11-16T09:01:47.205+04:00 ERROR importer/importer.go:162 failed inserting invoice seller_id=2 invoice_num="OBS-2026-1001": duplicate key value violates unique constraint (document number already exists)

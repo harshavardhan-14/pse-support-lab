@@ -1,0 +1,15 @@
+# Docker & API Logs — Incident 2 (API Container OOMKilled Restarts)
+# Command: docker inspect api-prod-01 & docker compose logs api
+# Reference: https://github.com/sanjay-complyance/pse-support-lab/blob/main/docker-compose.yml
+
+$ docker inspect invoicely-api --format 'Name={{.Name}} RestartCount={{.RestartCount}} ExitCode={{.State.ExitCode}} OOMKilled={{.State.OOMKilled}} MemoryLimit={{.HostConfig.Memory}}'
+Name=/invoicely-api RestartCount=3 ExitCode=137 OOMKilled=true MemoryLimit=536870912
+
+$ docker compose logs api | grep -E "OOM|starting|memory|502|Validated"
+api-1  | 2026-11-16T09:18:14.002+04:00 WARN  runtime: memory allocation spike rss_mb=509.4 limit_mb=512.0 active_imports=4
+api-1  | [Container killed: SIGKILL (Exit Code 137 - OOMKilled) at 2026-11-16T09:18:15+04:00]
+api-1  | 2026-11-16T09:18:22.110+04:00 INFO  main.go:34 Starting Invoicely Lite API on :8080 (workers=4, startup_recovery=false)
+api-1  | [Container killed: SIGKILL (Exit Code 137 - OOMKilled) at 2026-11-16T09:33:41+04:00]
+api-1  | 2026-11-16T09:33:49.504+04:00 INFO  main.go:34 Starting Invoicely Lite API on :8080 (workers=4, startup_recovery=false)
+api-1  | [Container killed: SIGKILL (Exit Code 137 - OOMKilled) at 2026-11-16T09:48:02+04:00]
+api-1  | 2026-11-16T09:48:09.812+04:00 INFO  main.go:34 Starting Invoicely Lite API on :8080 (workers=4, startup_recovery=false)

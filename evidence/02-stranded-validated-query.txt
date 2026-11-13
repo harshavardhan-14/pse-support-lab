@@ -1,0 +1,9 @@
+-- Query: Identify invoices stranded in 'Validated' status after API OOMKilled restarts (09:15 - 09:48 GST)
+-- Source: db/init/001_schema.sql (https://github.com/sanjay-complyance/pse-support-lab/blob/main/db/init/001_schema.sql)
+$ docker compose exec postgres psql -U invoicely -d invoicely -c "SELECT s.name AS seller_name, i.status, COUNT(*) AS invoice_count, MIN(i.created_at) AS first_seen, MAX(i.created_at) AS last_seen FROM invoices i JOIN sellers s ON s.id = i.seller_id WHERE i.status = 'Validated' GROUP BY s.name, i.status ORDER BY invoice_count DESC;"
+
+          seller_name          |  status   | invoice_count |          first_seen           |           last_seen           
+-------------------------------+-----------+---------------+-------------------------------+-------------------------------
+ Oasis Builders Supply LLC     | Validated |            18 | 2026-11-16 09:17:52.104+04:00 | 2026-11-16 09:18:14.880+04:00
+ Marina Bay Hospitality LLC    | Validated |            11 | 2026-11-16 09:33:10.412+04:00 | 2026-11-16 09:47:59.901+04:00
+(2 rows)

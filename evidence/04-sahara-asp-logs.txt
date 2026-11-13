@@ -1,0 +1,10 @@
+# API & ASP-Mock Logs — Incident 4 (Sahara Medical Supplies FZE / Bluepeak ERP)
+# Command: docker compose logs api asp-mock | grep -i "SAH-2026"
+# Reference: https://github.com/sanjay-complyance/pse-support-lab/blob/main/services/asp-mock/main.go
+
+asp-mock-1 | 2026-11-16T10:00:02.110+04:00 INFO  main.go:142 POST /asp/v1/invoices/submit invoice_num="SAH-2026-1101" status=200 asp_ref="ASP-UAE-20261116-0001"
+...
+asp-mock-1 | 2026-11-16T10:00:02.480+04:00 INFO  main.go:142 POST /asp/v1/invoices/submit invoice_num="SAH-2026-1112" status=200 asp_ref="ASP-UAE-20261116-0012"
+asp-mock-1 | 2026-11-16T10:00:02.510+04:00 WARN  main.go:158 rate limit / burst threshold exceeded for seller peppol_id="0235:1000000004" invoice_num="SAH-2026-1113" status=429
+api-1      | 2026-11-16T10:00:02.512+04:00 WARN  submit/submit.go:74 ASP returned HTTP 429 for invoice_num="SAH-2026-1113" (asp_ref="")
+api-1      | 2026-11-16T10:00:02.515+04:00 INFO  importer/importer.go:175 updated invoice status="Submitted" invoice_num="SAH-2026-1113" asp_ref=""

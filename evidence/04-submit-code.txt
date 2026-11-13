@@ -1,0 +1,8 @@
+// Excerpt from services/api/internal/submit/submit.go & importer/importer.go
+// Reference: https://github.com/sanjay-complyance/pse-support-lab/blob/main/services/asp-mock/main.go
+
+// BUG: submit.go / importer.go updates invoice status to 'Submitted' even when
+// the ASP returns a non-200 status (e.g., 429 Too Many Requests) and empty asp_ref:
+resp, err := s.client.Post(s.aspURL+"/asp/v1/invoices/submit", "application/json", body)
+// Missing check: if resp.StatusCode != http.StatusOK || res.ASPRef == "" -> mark 'Failed' & retry
+_ = store.UpdateInvoiceStatus(ctx, inv.ID, "Submitted", res.ASPRef)

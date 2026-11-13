@@ -1,0 +1,11 @@
+// Excerpt from services/api/internal/sheet/sheet.go & tools/internal/dataset/dataset.go
+// Reference: https://github.com/sanjay-complyance/pse-support-lab/blob/main/docs/template-field-guide.md
+
+// In services/api/internal/sheet/sheet.go:
+issueDate, err := time.Parse("2006-01-02", rawDate)
+if err != nil {
+    return fmt.Errorf("[Invoice issue date*] must be a date in YYYY-MM-DD format (got '%s')", rawDate)
+}
+
+// In tools/internal/dataset/dataset.go (lines 188-238):
+// Ghaf Tree Cafe sample uses DD/MM/YYYY ("13/11/2026") instead of ISO "2026-11-13".

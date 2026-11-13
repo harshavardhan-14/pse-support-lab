@@ -1,0 +1,12 @@
+// Excerpt from services/api/internal/validate/validate.go
+// Reference: https://github.com/sanjay-complyance/pse-support-lab/blob/main/docs/architecture.md
+
+// Rule BR-CO-15: Invoice total amount with VAT (IBT-112) must equal
+// Invoice total amount without VAT (IBT-109) + Invoice total VAT amount (IBT-110)
+expectedGross := round2(inv.TotalNet + inv.TotalVAT)
+if inv.TotalGross != expectedGross {
+    return fmt.Errorf(
+        "BR-CO-15: Invoice total amount with VAT (IBT-112) must equal Invoice total amount without VAT (IBT-109) + Invoice total VAT amount (IBT-110) (got %.2f, expected %.2f)",
+        inv.TotalGross, expectedGross,
+    )
+}

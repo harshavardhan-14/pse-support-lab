@@ -1,0 +1,15 @@
+-- Query: Check Sahara Medical Supplies FZE (sahara-medical-batch-1116.xlsx) invoices and ASP references
+-- Source: db/init/001_schema.sql (https://github.com/sanjay-complyance/pse-support-lab/blob/main/db/init/001_schema.sql)
+$ docker compose exec postgres psql -U invoicely -d invoicely -c "SELECT status, CASE WHEN asp_ref IS NULL OR asp_ref = '' THEN 'BLANK_ASP_REF' ELSE 'HAS_ASP_REF' END AS asp_ref_state, COUNT(*) FROM invoices WHERE seller_id = (SELECT id FROM sellers WHERE name LIKE '%Sahara%') GROUP BY status, asp_ref_state;"
+
+  status   | asp_ref_state | count 
+-----------+---------------+-------
+ Submitted | HAS_ASP_REF   |    12
+ Submitted | BLANK_ASP_REF |    28
+(2 rows — Total: 40 invoices marked 'Submitted', but 28 have blank ASP Reference)
+
+-- Delivered 12 Invoices (Have valid ASP Reference — DO NOT RESEND):
+-- SAH-2026-1101 through SAH-2026-1112
+
+-- Undelivered 28 Invoices (Blank ASP Reference — Need backend re-submission):
+-- SAH-2026-1113 through SAH-2026-1140
